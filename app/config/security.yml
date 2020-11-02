@@ -9,8 +9,6 @@ security:
                 property: username
 
     firewalls:
-        test:
-            http_basic: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
