@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    #container.autowiring.strict_mode: true
 
 framework:
     #esi:             ~
@@ -19,8 +20,8 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
-    templating:
-        engines: ['twig']
+    #templating:
+        #engines: ['twig']
     default_locale:  "%locale%"
     trusted_hosts:   ~
 #    trusted_proxies: ~
