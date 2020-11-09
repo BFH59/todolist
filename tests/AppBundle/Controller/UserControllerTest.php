@@ -11,14 +11,11 @@ class UserControllerTest extends WebTestCase
     public function testList()
     {
         $client = static::createClient();
-        $client->request('POST', '/users', array(), array(), array(
-            'PHP_AUTH_USER' => 'julien',
-            'PHP_AUTH_PW' => 'password'
-        ));
+        $client->request('GET', '/users');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-
+/**
     public function testCreate()
     {
         $client = static::createClient();
@@ -34,7 +31,7 @@ class UserControllerTest extends WebTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
-
+*/
     public function testEdit()
     {
         $client = static::createClient();
