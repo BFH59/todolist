@@ -30,7 +30,8 @@ class AppFixtures extends Fixture
         for($i=0;$i<8; $i++){
             $task = new Task();
             $task->setTitle('tache n°'.$i)
-                 ->setContent('test');
+                 ->setContent('test')
+                 ->setUser($user);
             $manager->persist($task);
 
         }
