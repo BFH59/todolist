@@ -28,6 +28,8 @@ class UserControllerTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $client->submit($form,[
             'user[username]' => 'Test12345',
+            'user[password][first]' => 'password',
+            'user[password][second]' => 'password',
             'user[email]' => 'test12345@12345test.com'
 
         ]);
@@ -35,7 +37,7 @@ class UserControllerTest extends WebTestCase
 
 
 
-        //$this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue($client->getResponse()->isRedirect());
     }
 
     public function testEdit()

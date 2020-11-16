@@ -29,3 +29,9 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    app.form.type.task:
+        class: App\Form\UserType
+        arguments: ["@security.authorization_checker"]
+        tags:
+            - { name: user.type }
