@@ -15,23 +15,29 @@ class UserControllerTest extends WebTestCase
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
-/**
+
     public function testCreate()
     {
         $client = static::createClient();
-        $client->request('POST', '/users/create', array(), array(), array(
+        $crawler = $client->request('GET', '/users/create', array(), array(), array(
             'PHP_AUTH_USER' => 'julien',
             'PHP_AUTH_PW' => 'password'
-        ),[
-            'username' => 'test',
-            'password' => 'password'
+        ));
+
+        $buttonCrawlerNode = $crawler->selectButton('Ajouter');
+        $form = $buttonCrawlerNode->form();
+        $client->submit($form,[
+            'user[username]' => 'Test12345',
+            'user[email]' => 'test12345@12345test.com'
+
         ]);
 
 
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //$this->assertTrue($client->getResponse()->isSuccessful());
     }
-*/
+
     public function testEdit()
     {
         $client = static::createClient();

@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
  * @ORM\Table
+ *
  */
 class Task
 {
@@ -40,6 +41,12 @@ class Task
      */
     private $isDone;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -69,6 +76,7 @@ class Task
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     public function getContent()
@@ -79,6 +87,7 @@ class Task
     public function setContent($content)
     {
         $this->content = $content;
+        return $this;
     }
 
     public function isDone()
@@ -99,6 +108,18 @@ class Task
     public function setIsDone(bool $isDone): self
     {
         $this->isDone = $isDone;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
