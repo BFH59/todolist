@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ class UserController extends AbstractController
      * @Route("/users", name="user_list")
      * @param UserRepository $userRepository
      * @return \Symfony\Component\HttpFoundation\Response
+     * @IsGranted("user_list", message="Vous devez etre administrateur pour accéder à cette page")
      */
     public function listAction(UserRepository $userRepository)
     {
@@ -59,6 +61,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $userPasswordEncoder
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @IsGranted("user_edit", subject="user", message="Vous devez etre admin pour editer un autre compte que le votre !")
      */
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
