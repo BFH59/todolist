@@ -58,16 +58,6 @@ class Task
         return $this->id;
     }
 
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
     public function getTitle()
     {
         return $this->title;
@@ -98,18 +88,6 @@ class Task
     public function toggle($flag)
     {
         $this->isDone = $flag;
-    }
-
-    public function getIsDone(): ?bool
-    {
-        return $this->isDone;
-    }
-
-    public function setIsDone(bool $isDone): self
-    {
-        $this->isDone = $isDone;
-
-        return $this;
     }
 
     public function getUser(): ?User
