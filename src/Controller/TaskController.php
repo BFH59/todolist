@@ -6,6 +6,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -95,6 +96,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/delete", name="task_delete")
      * @param Task $task
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @IsGranted("task_delete", subject="task", message="Vous ne pouvez supprimer que vos propres taches !")
      */
     public function deleteTaskAction(Task $task)
     {
