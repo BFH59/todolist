@@ -35,13 +35,13 @@ class UserController extends AbstractController
     public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['required' => true]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $password = $passwordEncoder->encodePassword($user, $form['password']->getData());
             $user->setPassword($password);
 
             $em->persist($user);
@@ -68,23 +68,15 @@ class UserController extends AbstractController
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $form = $this->createForm(UserType::class, $user);
-        //remvoe password field of UserType if current logged user is nto editign its own profile
-        if($this->getUser() != $user){
-            $form->remove('password');
-        }
-        $currentUserPassword = $user->getPassword();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             if(isset($form['password']) && !empty($form['password']->getData())){
-                $password = $userPasswordEncoder->encodePassword($user, $user->getPassword());
+                $password = $userPasswordEncoder->encodePassword($user, $form['password']->getData());
                 $user->setPassword($password);
-            }else{
-                $user->setPassword($currentUserPassword);
             }
-
 
             $this->getDoctrine()->getManager()->flush();
 

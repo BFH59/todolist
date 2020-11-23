@@ -143,5 +143,12 @@ class TaskControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect());
     }
 
+    public function testuserNotConnectedDeleteTask()
+    {
+        $client = static::createClient();
+        $client->request('POST', '/tasks/3/delete');
 
+
+$this->assertResponseRedirects(null,302);
+    }
 }
