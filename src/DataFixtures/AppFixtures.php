@@ -28,8 +28,17 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER']);
         $manager->persist($user);
 
+        //create user "bbb" with role_user (for unit test purpose)
+        $user = new User();
+        $hash = $this->encoder->encodePassword($user, 'bbb');
+        $user->setUsername("bbb")
+            ->setEmail("bbb@bbb.com")
+            ->setPassword($hash)
+            ->setRoles(['ROLE_USER']);
+        $manager->persist($user);
+
         $adminUser = new User();
-        $hash = $this->encoder->encodePassword($adminUser, 'passwordAdmin');
+        $hash = $this->encoder->encodePassword($adminUser, 'admin');
         $adminUser->setUsername("admin")
             ->setEmail("admin@admin.com")
             ->setPassword($hash)
