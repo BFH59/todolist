@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table("user")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  */
@@ -46,6 +47,20 @@ class User implements UserInterface
      */
     private $tasks;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function initializeDefaultRole()
+    {
+        if(empty($this->roles)){
+            $this->roles = ['ROLE_USER'];
+        }
+    }
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -96,7 +111,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->roles;
     }
 
     public function eraseCredentials()
@@ -130,6 +145,16 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @param array $roles
+     * @return User
+     */
+    public function setRoles(array $roles): User
+    {
+        $this->roles = $roles;
         return $this;
     }
 }

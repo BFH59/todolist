@@ -38,8 +38,16 @@
         <!-- Page Content -->
         <div class="container">
             <div class="row">
-                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-
+                {% if not app.user %}
+                <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un compte</a>
+                {% else %}<a href="{{ path('user_edit', {'id' : app.user.id}) }}" class="btn btn-primary">Modifier mon compte</a>
+                {% endif %}
+                {% if app.user and is_granted('ROLE_ADMIN') == true %}
+                    <a href="{{ path('user_list') }}" class="btn btn-primary">Liste des utilisateurs</a>
+                    {% if app.request.attributes.get('_route') == 'user_list' %}
+                        <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un nouvel utilisateur</a>
+                        {% endif %}
+                {% endif %}
                 {% if app.user %}
                 <a href="{{ path('logout') }}" class="pull-right btn btn-danger">Se déconnecter</a>
                 {% endif %}

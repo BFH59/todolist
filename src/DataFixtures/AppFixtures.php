@@ -24,8 +24,17 @@ class AppFixtures extends Fixture
         $hash = $this->encoder->encodePassword($user, 'password');
         $user->setUsername("Anonyme")
             ->setEmail("anonyme@anonyme.com")
-            ->setPassword($hash);
+            ->setPassword($hash)
+            ->setRoles(['ROLE_USER']);
         $manager->persist($user);
+
+        $adminUser = new User();
+        $hash = $this->encoder->encodePassword($adminUser, 'passwordAdmin');
+        $adminUser->setUsername("admin")
+            ->setEmail("admin@admin.com")
+            ->setPassword($hash)
+            ->setRoles(['ROLE_ADMIN']);
+        $manager->persist($adminUser);
 
         for($i=0;$i<8; $i++){
             $task = new Task();
