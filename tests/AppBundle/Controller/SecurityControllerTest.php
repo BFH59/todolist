@@ -11,9 +11,9 @@ class SecurityControllerTest extends WebTestCase
     public function testLogin()
     {
         $client = static::createClient();
-        $client->request('POST', '/login', array(), array(), array(
-            'PHP_AUTH_USER' => 'julien',
-            'PHP_AUTH_PW' => 'password'
+        $client->request('GET', '/login', array(), array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW' => 'admin'
         ));
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
