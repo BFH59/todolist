@@ -49,7 +49,9 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('user_edit', [
+                'id' => $user->getId()
+            ]);
         }
 
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);
@@ -66,18 +68,31 @@ class UserController extends AbstractController
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $form = $this->createForm(UserType::class, $user);
+        //remvoe password field of UserType if current logged user is nto editign its own profile
+        if($this->getUser() != $user){
+            $form->remove('password');
+        }
+        $currentUserPassword = $user->getPassword();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $password = $userPasswordEncoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($password);
+
+            if(isset($form['password']) && !empty($form['password']->getData())){
+                $password = $userPasswordEncoder->encodePassword($user, $user->getPassword());
+                $user->setPassword($password);
+            }else{
+                $user->setPassword($currentUserPassword);
+            }
+
 
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('user_edit', [
+                'id' => $user->getId()
+            ]);
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
