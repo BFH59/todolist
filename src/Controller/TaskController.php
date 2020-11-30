@@ -18,9 +18,19 @@ class TaskController extends AbstractController
      * @param TaskRepository $taskRepository
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function listAction(TaskRepository $taskRepository)
+    public function list(TaskRepository $taskRepository)
     {
         return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
+    }
+
+    /**
+     * @Route("/tasks_done", name="task_done")
+     * @param TaskRepository $taskRepository
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listTaskDone(TaskRepository $taskRepository)
+    {
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findBy(['isDone' => 1])]);
     }
 
     /**
@@ -29,7 +39,7 @@ class TaskController extends AbstractController
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function createAction(Request $request, EntityManagerInterface $em)
+    public function create(Request $request, EntityManagerInterface $em)
     {
         $task = new Task();
         $user = $this->getUser();
@@ -57,7 +67,7 @@ class TaskController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Task $task, Request $request)
+    public function edit(Task $task, Request $request)
     {
         $form = $this->createForm(TaskType::class, $task);
 
@@ -82,7 +92,7 @@ class TaskController extends AbstractController
      * @param Task $task
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function toggleTaskAction(Task $task)
+    public function toggleTask(Task $task)
     {
         $task->toggle(!$task->isDone());
         $this->getDoctrine()->getManager()->flush();
@@ -98,7 +108,7 @@ class TaskController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @IsGranted("task_delete", subject="task", message="Vous ne pouvez supprimer que vos propres taches !")
      */
-    public function deleteTaskAction(Task $task)
+    public function deleteTask(Task $task)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
