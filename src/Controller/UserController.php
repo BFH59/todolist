@@ -20,7 +20,7 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @IsGranted("user_list", message="Vous devez etre administrateur pour accéder à cette page")
      */
-    public function listAction(UserRepository $userRepository)
+    public function list(UserRepository $userRepository)
     {
         return $this->render('user/list.html.twig', ['users' => $userRepository->findAll()]);
     }
@@ -32,7 +32,7 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    public function create(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user, ['required' => true]);
@@ -65,7 +65,7 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @IsGranted("user_edit", subject="user", message="Vous devez etre admin pour editer un autre compte que le votre !")
      */
-    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
+    public function edit(User $user, Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         $form = $this->createForm(UserType::class, $user);
 
