@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Accès interdit </h1>
+
+    <p>
+        Vous n'avez pas les droits nécessaires pour réaliser cette action / accéder à cette ressource. <a href="{{ path('homepage') }}">Retourner sur la page d'accueil</a>.
+    </p>
+{% endblock %}
