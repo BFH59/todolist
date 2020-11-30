@@ -20,13 +20,23 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $hash = $this->encoder->encodePassword($user, 'password');
-        $user->setUsername("Anonyme")
+        $userAnonyme = new User();
+        $hash = $this->encoder->encodePassword($userAnonyme, 'password');
+        $userAnonyme->setUsername("Anonyme")
             ->setEmail("anonyme@anonyme.com")
             ->setPassword($hash)
             ->setRoles(['ROLE_USER']);
-        $manager->persist($user);
+        $manager->persist($userAnonyme);
+
+        //create task linked to anonymous user
+        for($i=0;$i<8; $i++){
+            $task = new Task();
+            $task->setTitle('tache n°'.$i)
+                ->setContent('test')
+                ->setUser($userAnonyme);
+            $manager->persist($task);
+
+        }
 
         //create user "bbb" with role_user (for unit test purpose)
         $user = new User();
@@ -37,6 +47,13 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_USER']);
         $manager->persist($user);
 
+        //create task for user 'bbb' for unit test purpose
+        $task = new Task();
+        $task->setTitle('tache de BBB')
+            ->setContent('test bbb')
+            ->setUser($user);
+        $manager->persist($task);
+
         $adminUser = new User();
         $hash = $this->encoder->encodePassword($adminUser, 'admin');
         $adminUser->setUsername("admin")
@@ -45,14 +62,27 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN']);
         $manager->persist($adminUser);
 
-        for($i=0;$i<8; $i++){
-            $task = new Task();
-            $task->setTitle('tache n°'.$i)
-                 ->setContent('test')
-                 ->setUser($user);
-            $manager->persist($task);
+        //create 50 tests users for blackfire performance testing purpose
 
+        for($i = 0; $i <= 50; $i++) {
+
+            $randomUser = new User();
+
+            $hash = $this->encoder->encodePassword($randomUser, 'password');
+
+            $randomUser->setUsername('randomUser-'.$i)
+                ->setEmail('randomUser-'.$i.'@randomuser.com')
+                ->setPassword($hash)
+                ->setRoles(['ROLE_USER']);;
+            $manager->persist($randomUser);
+
+            $randomUserTask = new Task();
+            $randomUserTask->setTitle('random task n°'.$i)
+                ->setContent('random txt')
+                ->setUser($randomUser);
+            $manager->persist($randomUserTask);
         }
+
 
 
         $manager->flush();
