@@ -66,7 +66,7 @@ class UserControllerTest extends WebTestCase
     public function testAdminEdit()
     {
         $client = static::createClient();
-        $client->request('GET', '/users/2/edit', array(), array(), array(
+        $client->request('GET', '/users/113/edit', array(), array(), array(
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW' => 'admin'
         ));
@@ -76,11 +76,11 @@ class UserControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
-    //admin change user role to admin for user id = 3
+    //admin change user role to admin for user id = 115 (randomUser-1)
     public function testUserRoleEdit()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/users/3/edit', array(), array(), array(
+        $crawler = $client->request('GET', '/users/115/edit', array(), array(), array(
             'PHP_AUTH_USER' => 'admin',
             'PHP_AUTH_PW' => 'admin'
         ));
@@ -106,7 +106,7 @@ class UserControllerTest extends WebTestCase
     public function testUserOKEdit()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/users/8/edit', array(), array(), array(
+        $crawler = $client->request('GET', '/users/112/edit', array(), array(), array(
             'PHP_AUTH_USER' => 'bbb',
             'PHP_AUTH_PW' => 'bbb'
         ));
