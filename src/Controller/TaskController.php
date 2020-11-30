@@ -10,13 +10,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 class TaskController extends AbstractController
 {
     /**
+     * @Cache(expires="tomorrow", public=true)
+     *
+     *
      * @Route("/tasks", name="task_list")
      * @param TaskRepository $taskRepository
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function list(TaskRepository $taskRepository)
     {
@@ -26,7 +31,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks_done", name="task_done")
      * @param TaskRepository $taskRepository
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function listTaskDone(TaskRepository $taskRepository)
     {
@@ -37,7 +42,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/create", name="task_create")
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function create(Request $request, EntityManagerInterface $em)
     {
@@ -65,7 +70,7 @@ class TaskController extends AbstractController
      * @Route("/tasks/{id}/edit", name="task_edit")
      * @param Task $task
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Task $task, Request $request)
     {
