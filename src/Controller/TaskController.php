@@ -11,12 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 
 class TaskController extends AbstractController
 {
     /**
-     * @Cache(expires="tomorrow", public=true)
+     *
      *
      *
      * @Route("/tasks", name="task_list")
@@ -25,7 +24,7 @@ class TaskController extends AbstractController
      */
     public function list(TaskRepository $taskRepository)
     {
-        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->findAll()]);
+        return $this->render('task/list.html.twig', ['tasks' => $taskRepository->getTaskList()]);
     }
 
     /**
