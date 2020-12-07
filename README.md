@@ -5,7 +5,7 @@ Base du projet #8 : Améliorez un projet existant
 
 https://openclassrooms.com/projects/ameliorer-un-projet-existant-1
 
-#INSTALLATION :
+## INSTALLATION :
 
 1. Clonez le projet:
 
@@ -42,3 +42,10 @@ Commande :
 ``` 
 php app/console doctrine:fixtures:load
 ``` 
+
+## TESTS
+Afin de lancer vos tests via phpunit et generer les fichier de couverture, lancez la commande suivante :
+```
+php ./bin/phpunit --coverage-html coverage 
+```
+
