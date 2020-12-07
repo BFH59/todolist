@@ -16,7 +16,6 @@ security:
             security: false
 
         main:
-            #logout_on_user_change: true
             anonymous: ~
             pattern: ^/
             form_login:
@@ -28,7 +27,6 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
 
     role_hierarchy:
