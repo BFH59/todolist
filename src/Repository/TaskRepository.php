@@ -19,6 +19,14 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    public function getTaskList()
+    {
+        $qb = $this->createQueryBuilder('task')
+            ->leftJoin('task.user', 'taskuser')
+            ->addSelect('taskuser');
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Task[] Returns an array of Task objects
     //  */
